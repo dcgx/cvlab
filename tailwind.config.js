@@ -8,15 +8,27 @@ module.exports = {
   ],
   theme: {
     extend: {
+      spacing: {
+        18: '4.5rem',
+        22: '5.5rem',
+      },
+      maxWidth: {
+        content: '1200px',
+      },
       colors: {
-        primary: '#E63946',
-        secondary: '#1D3557',
-        accent: '#F4A261',
-        background: '#F1FAEE',
+        background: '#FAFAFA',
+        surface: '#FFFFFF',
+        primary: '#6366f1',
+        secondary: '#374151',
+        border: '#e5e7eb',
       },
       fontFamily: {
-        heading: ['Playfair Display', 'serif'],
+        sans: ['Inter', 'sans-serif'],
+        heading: ['Inter', 'sans-serif'],
         body: ['Inter', 'sans-serif'],
+      },
+      transitionDuration: {
+        200: '200ms',
       },
     },
   },
