@@ -1,8 +1,12 @@
 <script setup lang="ts">
-// Layout raíz; Navbar/Footer se añaden en otro ticket
+// Layout raíz: header + contenido principal
 </script>
 
-<template lang="pug">
-div.min-h-screen.bg-background
-  NuxtPage
+<template>
+  <div class="min-h-screen bg-background flex flex-col">
+    <LayoutAppNav />
+    <main class="container mx-auto px-4 py-8 flex-1 sm:px-6 lg:px-8">
+      <NuxtPage />
+    </main>
+  </div>
 </template>
