@@ -116,6 +116,16 @@ export const useCvStore = defineStore('cv', () => {
     })
   }
 
+  function updateExperience(id: string, payload: Partial<ExperienceItem>) {
+    const idx = experiences.value.findIndex((e) => e.id === id)
+    if (idx === -1) return
+    experiences.value[idx] = { ...experiences.value[idx], ...payload }
+  }
+
+  function removeExperience(id: string) {
+    experiences.value = experiences.value.filter((e) => e.id !== id)
+  }
+
   function addSkill() {
     skills.value.push({ id: generateId('sk'), name: 'Nueva habilidad' })
   }
@@ -149,6 +159,8 @@ export const useCvStore = defineStore('cv', () => {
     setPhotoFile,
     toggleExtraFields,
     addExperience,
+    updateExperience,
+    removeExperience,
     addSkill,
     addEducation,
   }

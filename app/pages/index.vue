@@ -90,17 +90,15 @@ function inputValue(e: Event): string {
           <p class="text-sm text-gray-600 mb-2">
             Muestra lo que has hecho frente a lo que has conseguido: 4-6 líneas y dos o más logros.
           </p>
-          <ul class="space-y-2">
-            <li
+          <div class="space-y-4">
+            <CvExperienceItem
               v-for="exp in cv.experiences"
               :key="exp.id"
-              class="rounded bg-gray-50 p-2 text-sm"
-            >
-              <strong>{{ exp.title }}</strong>
-              — {{ exp.company }} ({{ exp.period }})
-              <p class="mt-1 text-gray-600">{{ exp.description }}</p>
-            </li>
-          </ul>
+              :experience="exp"
+              @update="(payload) => cv.updateExperience(exp.id, payload)"
+              @remove="cv.removeExperience(exp.id)"
+            />
+          </div>
         </CvRepeatableSection>
 
         <CvRepeatableSection
