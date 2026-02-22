@@ -8,8 +8,11 @@ const route = useRoute()
 
 onMounted(() => {
   const id = route.query.id
+  const store = useCvStore()
   if (id && typeof id === 'string') {
-    useCvStore().loadCv(id)
+    store.loadCv(id)
+  } else {
+    store.loadFromLocalStorage()
   }
 })
 </script>

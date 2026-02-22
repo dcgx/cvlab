@@ -91,6 +91,8 @@ function generateId(prefix: string): string {
   return `${prefix}-${Date.now().toString(36)}`
 }
 
+const LOCAL_STORAGE_KEY = 'cvlab-cv-draft'
+
 export const useCvStore = defineStore('cv', () => {
   const firstName = ref('')
   const lastName = ref('')
@@ -355,11 +357,10 @@ export const useCvStore = defineStore('cv', () => {
     autosaveStatus.value = 'saving'
     try {
       const body = getPayload()
-      if (cvId.value) {
-        await $fetch(`/api/cvs/${cvId.value}`, { method: 'PATCH', body })
-      } else {
-        const res = await $fetch<{ id: string }>('/api/cvs', { method: 'POST', body })
-        if (res?.id) cvId.value = res.id
+      // Persistencia temporal en localStorage (sin backend)
+      if (import.meta.client) {
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(body))
+        cvId.value = cvId.value ?? 'local'
       }
       isDirty.value = false
       autosaveStatus.value = 'saved'
@@ -368,13 +369,34 @@ export const useCvStore = defineStore('cv', () => {
     }
   }
 
+  function loadFromLocalStorage() {
+    if (import.meta.client) {
+      const raw = localStorage.getItem(LOCAL_STORAGE_KEY)
+      if (raw) {
+        try {
+          const data = JSON.parse(raw) as ReturnType<typeof getPayload>
+          cvId.value = 'local'
+          hydrate(data)
+        } catch (_e) {
+          // JSON inválido: ignorar
+        }
+      }
+    }
+  }
+
   async function loadCv(id: string) {
+    // Si es el draft local, cargar desde localStorage
+    if (id === 'local') {
+      loadFromLocalStorage()
+      return
+    }
     try {
       const data = await $fetch<ReturnType<typeof getPayload> & { id?: string }>(`/api/cvs/${id}`)
       if (data?.id) cvId.value = data.id
       hydrate(data)
     } catch (_e) {
-      // Sin backend: no hacer nada o mostrar mensaje
+      // Sin backend: intentar cargar draft local
+      loadFromLocalStorage()
     }
   }
 
@@ -433,6 +455,7 @@ export const useCvStore = defineStore('cv', () => {
     getPayload,
     hydrate,
     autosave,
+    loadFromLocalStorage,
     loadCv,
   }
 })
