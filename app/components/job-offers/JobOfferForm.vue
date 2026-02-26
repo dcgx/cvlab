@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useJobOfferStore } from '../../stores/jobOffer'
+import { useJobOfferStore } from '~/stores/jobOffer'
 
 const jobOfferStore = useJobOfferStore()
 
@@ -20,10 +20,11 @@ function handleSubmit(event: Event) {
         Título de la oportunidad
       </label>
       <input
-        v-model="jobOfferStore.title"
+        :value="jobOfferStore.title"
         type="text"
         class="mt-1 block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
         placeholder="Backend Engineer – Acme"
+        @input="jobOfferStore.setTitle(($event.target as HTMLInputElement).value)"
       >
     </div>
 
@@ -35,10 +36,11 @@ function handleSubmit(event: Event) {
         Pega aquí la descripción completa de la oferta (responsabilidades, requisitos, nice-to-have). Cuanto más detalle, mejor adaptaremos tu CV.
       </p>
       <textarea
-        v-model="jobOfferStore.rawText"
+        :value="jobOfferStore.rawText"
         rows="10"
         class="mt-2 block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
         placeholder="Pega aquí el texto completo de la oferta..."
+        @input="jobOfferStore.setRawText(($event.target as HTMLTextAreaElement).value)"
       />
     </div>
 
@@ -47,10 +49,11 @@ function handleSubmit(event: Event) {
         URL de la oferta (opcional)
       </label>
       <input
-        v-model="jobOfferStore.sourceUrl"
+        :value="jobOfferStore.sourceUrl"
         type="url"
         class="mt-1 block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
         placeholder="https://empresa.com/oferta/backend-engineer"
+        @input="jobOfferStore.setSourceUrl(($event.target as HTMLInputElement).value)"
       >
     </div>
 

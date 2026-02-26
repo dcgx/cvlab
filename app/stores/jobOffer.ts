@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import type { JobOfferStatus } from '../types/jobOffer'
+import type { JobOfferStatus } from '~/types/jobOffer'
 
 export interface JobOfferAnalysis {
   skills: string[]

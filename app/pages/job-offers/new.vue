@@ -6,6 +6,13 @@ useSeoMeta({
 </script>
 
 <template>
-  <JobOfferCreateView />
+  <ClientOnly>
+    <JobOfferCreateView />
+    <template #fallback>
+      <div class="flex min-h-[40vh] items-center justify-center text-gray-500">
+        Cargando...
+      </div>
+    </template>
+  </ClientOnly>
 </template>
 

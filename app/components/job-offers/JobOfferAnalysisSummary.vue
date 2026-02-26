@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useJobOfferStore } from '../../stores/jobOffer'
+import { useJobOfferStore } from '~/stores/jobOffer'
 
 const jobOfferStore = useJobOfferStore()
 </script>

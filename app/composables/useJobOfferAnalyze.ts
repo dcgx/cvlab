@@ -1,5 +1,5 @@
-import type { JobOfferAnalysis } from '../stores/jobOffer'
-import { useJobOfferStore } from '../stores/jobOffer'
+import type { JobOfferAnalysis } from '~/stores/jobOffer'
+import { useJobOfferStore } from '~/stores/jobOffer'
 
 export interface AnalyzeAndGeneratePayload {
   title: string

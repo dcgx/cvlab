@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import { useJobOfferStore } from '../../stores/jobOffer'
-import { useJobOfferAnalyze } from '../../composables/useJobOfferAnalyze'
+import { useJobOfferStore } from '~/stores/jobOffer'
+import { useJobOfferAnalyze } from '~/composables/useJobOfferAnalyze'
 
 const jobOfferStore = useJobOfferStore()
 const { analyzeAndGenerateCv } = useJobOfferAnalyze()
 
-// Al entrar en la vista, aseguramos un estado limpio para la oferta
-jobOfferStore.reset()
+onMounted(() => {
+  jobOfferStore.reset()
+})
 
 async function handleSubmit() {
   if (jobOfferStore.status === 'analyzing') return
