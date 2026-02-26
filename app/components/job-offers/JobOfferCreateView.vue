@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import JobOfferForm from '~/components/job-offers/JobOfferForm.vue'
+import JobOfferAnalysisSummary from '~/components/job-offers/JobOfferAnalysisSummary.vue'
 import { useJobOfferStore } from '~/stores/jobOffer'
 import { useJobOfferAnalyze } from '~/composables/useJobOfferAnalyze'
 
