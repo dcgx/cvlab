@@ -24,9 +24,17 @@ const emit = defineEmits<{
       <img :src="cv.thumbnail" :alt="cv.title" class="w-full h-full object-cover">
     </div>
     <div class="flex-1 min-w-0">
-      <h3 class="font-medium text-gray-900 truncate">
-        {{ cv.title }}
-      </h3>
+      <div class="flex items-center gap-2 flex-wrap">
+        <h3 class="font-medium text-gray-900 truncate">
+          {{ cv.title }}
+        </h3>
+        <span
+          v-if="cv.adaptedFromOffer"
+          class="shrink-0 inline-flex items-center rounded-md bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary"
+        >
+          CV adaptado
+        </span>
+      </div>
       <p class="text-sm text-gray-500 mt-0.5">
         {{ cv.updatedAt }}
       </p>

@@ -5,6 +5,7 @@ const route = useRoute()
 const navLinks = [
   { to: '/', label: 'Dashboard' },
   { to: '/crear-cv', label: 'Crear CV' },
+  { to: '/job-offers/new', label: 'CV desde oferta' },
   { to: '/biblioteca', label: 'Biblioteca' },
 ]
 

@@ -8,6 +8,8 @@ export interface CvSummary {
   title: string
   updatedAt: string
   thumbnail?: string
+  /** Si existe, este CV fue generado como adaptado a una oferta (mostrar etiqueta "CV adaptado") */
+  adaptedFromOffer?: string
 }
 
 const LOCAL_STORAGE_KEY = 'cvlab-cv-draft'
