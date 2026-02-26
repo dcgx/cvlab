@@ -31,5 +31,6 @@ export default defineNuxtConfig({
   // Evitar hidratación en páginas que usan solo estado cliente (Pinia, etc.)
   routeRules: {
     '/job-offers/new': { ssr: false },
+    '/dashboard/applications': { ssr: false },
   },
 })
