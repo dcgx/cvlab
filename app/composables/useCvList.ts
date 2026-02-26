@@ -1,13 +1,18 @@
 /**
  * Lista de CVs del usuario para el dashboard.
- * Mock en cliente hasta tener API de listado.
+ * Para MVP, lee el draft guardado en localStorage
+ * (clave usada por el store: 'cvlab-cv-draft').
  */
 export interface CvSummary {
   id: string
   title: string
   updatedAt: string
   thumbnail?: string
+  /** Si existe, este CV fue generado como adaptado a una oferta (mostrar etiqueta "CV adaptado") */
+  adaptedFromOffer?: string
 }
+
+const LOCAL_STORAGE_KEY = 'cvlab-cv-draft'
 
 export function useCvList() {
   const list = ref<CvSummary[]>([])
@@ -18,11 +23,34 @@ export function useCvList() {
     loading.value = true
     error.value = null
     try {
-      // TODO: reemplazar por $fetch('/api/cvs') cuando exista backend
-      await new Promise((r) => setTimeout(r, 300))
-      list.value = []
-    } catch (e) {
+      // MVP: fuente localStorage hasta tener backend
+      if (import.meta.client) {
+        const raw = localStorage.getItem(LOCAL_STORAGE_KEY)
+        if (raw) {
+          const data = JSON.parse(raw) as any
+          const id = typeof data.id === 'string' && data.id ? data.id : 'local'
+          const title =
+            (data.professionalTitle as string | undefined) ||
+            (data.position as string | undefined) ||
+            'CV Maestro'
+          const updatedAt = (data.updatedAt as string | undefined) || ''
+
+          list.value = [
+            {
+              id,
+              title,
+              updatedAt,
+            },
+          ]
+        } else {
+          list.value = []
+        }
+      } else {
+        list.value = []
+      }
+    } catch (_e) {
       error.value = 'No se pudo cargar la lista'
+      list.value = []
     } finally {
       loading.value = false
     }

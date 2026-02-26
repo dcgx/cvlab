@@ -16,7 +16,7 @@ const emit = defineEmits<{
 
 <template>
   <div
-    class="rounded-xl border border-gray-200 bg-white p-4 shadow-sm hover:shadow-md transition cursor-pointer flex flex-col gap-3"
+    class="rounded-xl border border-gray-200 bg-surface p-4 transition duration-200 hover:border-gray-300 cursor-pointer flex flex-col gap-3"
     :class="layout === 'list' ? 'sm:flex-row sm:items-center' : ''"
     @click="emit('open', cv.id)"
   >
@@ -24,28 +24,34 @@ const emit = defineEmits<{
       <img :src="cv.thumbnail" :alt="cv.title" class="w-full h-full object-cover">
     </div>
     <div class="flex-1 min-w-0">
-      <h3 class="font-medium text-secondary truncate">
-        {{ cv.title }}
-      </h3>
+      <div class="flex items-center gap-2 flex-wrap">
+        <h3 class="font-medium text-gray-900 truncate">
+          {{ cv.title }}
+        </h3>
+        <span
+          v-if="cv.adaptedFromOffer"
+          class="shrink-0 inline-flex items-center rounded-md bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary"
+        >
+          CV adaptado
+        </span>
+      </div>
       <p class="text-sm text-gray-500 mt-0.5">
         {{ cv.updatedAt }}
       </p>
     </div>
     <div class="flex gap-2 shrink-0" @click.stop>
-      <button
-        type="button"
-        class="px-3 py-1.5 text-sm rounded bg-secondary text-white hover:bg-secondary/90 transition"
+      <UiButton
+        variant="primary"
         @click="emit('open', cv.id)"
       >
         Abrir
-      </button>
-      <button
-        type="button"
-        class="px-3 py-1.5 text-sm rounded border border-gray-300 text-gray-700 hover:bg-gray-100 transition"
+      </UiButton>
+      <UiButton
+        variant="secondary"
         @click="emit('delete', cv.id)"
       >
         Eliminar
-      </button>
+      </UiButton>
     </div>
   </div>
 </template>

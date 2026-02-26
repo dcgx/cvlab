@@ -13,12 +13,12 @@ function handleDelete(id: string) {
 </script>
 
 <template>
-  <div class="min-h-screen">
+  <div>
     <CvDriveToolbar />
-    <div v-if="loading" class="py-12 text-center text-gray-500">
-      Cargando...
+    <div v-if="loading" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+      <UiSkeletonCard v-for="i in 8" :key="i" />
     </div>
-    <div v-else-if="error" class="py-12 text-center text-red-600">
+    <div v-else-if="error" class="py-12 text-center text-gray-600">
       {{ error }}
     </div>
     <div v-else-if="list.length === 0">

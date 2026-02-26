@@ -8,21 +8,21 @@ interface Props {
 withDefaults(defineProps<Props>(), {
   title: 'Aún no tienes CVs',
   description: 'Crea tu primer CV para empezar.',
-  actionLabel: 'Crear CV',
+  actionLabel: 'Crear mi primer CV',
 })
 </script>
 
 <template>
-  <div class="flex flex-col items-center justify-center py-16 text-center">
-    <p class="font-heading text-xl text-secondary">
+  <div class="flex flex-col items-center justify-center py-16 px-4 text-center">
+    <h2 class="text-2xl font-semibold text-gray-900">
       {{ title }}
-    </p>
-    <p class="mt-2 text-body text-gray-600">
+    </h2>
+    <p class="mt-2 text-base text-gray-500 max-w-sm">
       {{ description }}
     </p>
     <NuxtLink
       to="/crear-cv"
-      class="mt-6 px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 font-medium transition"
+      class="mt-6 inline-flex items-center justify-center rounded-lg px-4 py-2.5 text-sm font-medium bg-primary text-white hover:opacity-90 transition duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
     >
       {{ actionLabel }}
     </NuxtLink>

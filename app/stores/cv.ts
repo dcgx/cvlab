@@ -356,11 +356,14 @@ export const useCvStore = defineStore('cv', () => {
     if (!isDirty.value) return
     autosaveStatus.value = 'saving'
     try {
-      const body = getPayload()
+      const base = getPayload()
+      const id = cvId.value ?? 'local'
+      const updatedAt = new Date().toISOString()
+      const body = { ...base, id, updatedAt }
       // Persistencia temporal en localStorage (sin backend)
       if (import.meta.client) {
         localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(body))
-        cvId.value = cvId.value ?? 'local'
+        cvId.value = id
       }
       isDirty.value = false
       autosaveStatus.value = 'saved'
