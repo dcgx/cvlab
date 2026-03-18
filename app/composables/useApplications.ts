@@ -1,27 +1,26 @@
 import type { Application, ApplicationStats } from '~/types/application'
 
 export function useApplications() {
-  const config = useRuntimeConfig()
-  const base = config.public.apiBase ?? ''
+  const { fetch } = useApiFetch()
 
   const fetchList = async (query?: Record<string, string>) => {
-    const data = await $fetch<Application[]>(`${base}/applications`, { query })
+    const data = await fetch<Application[]>('/applications', { query })
     return data
   }
 
   const fetchOne = async (id: string) => {
-    return await $fetch<Application>(`${base}/applications/${id}`)
+    return await fetch<Application>(`/applications/${id}`)
   }
 
   const updateStatus = async (id: string, status: string) => {
-    return await $fetch<Application>(`${base}/applications/${id}`, {
+    return await fetch<Application>(`/applications/${id}`, {
       method: 'PATCH',
       body: { status },
     })
   }
 
   const updateNotes = async (id: string, notes: string) => {
-    return await $fetch<Application>(`${base}/applications/${id}`, {
+    return await fetch<Application>(`/applications/${id}`, {
       method: 'PATCH',
       body: { notes },
     })

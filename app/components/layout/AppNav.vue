@@ -1,6 +1,10 @@
 <script setup lang="ts">
 // Navegación principal: Dashboard, Crear CV, Biblioteca (estilo Vercel)
 const route = useRoute()
+const auth = useAuth()
+const supabase = useNuxtApp().$supabase
+
+onMounted(() => auth.init())
 
 const navLinks = [
   { to: '/', label: 'Dashboard' },
@@ -13,6 +17,11 @@ const navLinks = [
 const isActive = (path: string) => {
   if (path === '/') return route.path === '/'
   return route.path.startsWith(path)
+}
+
+async function handleSignOut() {
+  await auth.signOut()
+  await navigateTo('/login')
 }
 </script>
 
@@ -37,6 +46,23 @@ const isActive = (path: string) => {
             >
               {{ link.label }}
             </NuxtLink>
+          </li>
+          <li v-if="supabase" class="ml-2">
+            <NuxtLink
+              v-if="!auth.isAuthenticated"
+              to="/login"
+              class="text-sm font-medium rounded-lg px-3 py-2 text-indigo-600 hover:bg-indigo-50"
+            >
+              Entrar
+            </NuxtLink>
+            <button
+              v-else
+              type="button"
+              class="text-sm font-medium rounded-lg px-3 py-2 text-gray-600 hover:bg-gray-50"
+              @click="handleSignOut"
+            >
+              Salir
+            </button>
           </li>
         </ul>
       </div>

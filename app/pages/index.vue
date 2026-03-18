@@ -1,14 +1,21 @@
 <script setup lang="ts">
 useSeoMeta({ title: 'Dashboard - CVLab', description: 'Tus CVs creados' })
 
-const { list, loading, error } = useCvList()
+const { list, loading, error, refresh } = useCvList()
+const { remove } = useCvApi()
 
 function handleOpen(id: string) {
   navigateTo(`/crear-cv?id=${id}`)
 }
 
-function handleDelete(id: string) {
-  // TODO: confirmar y llamar API o store cuando exista backend
+async function handleDelete(id: string) {
+  if (!confirm('¿Eliminar este CV?')) return
+  try {
+    await remove(id)
+    await refresh()
+  } catch (e) {
+    console.error('Error al eliminar:', e)
+  }
 }
 </script>
 

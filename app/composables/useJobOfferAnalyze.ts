@@ -28,8 +28,8 @@ export function useJobOfferAnalyze() {
     jobOfferStore.setError('')
 
     try {
-      // Endpoint a definir por backend; para MVP se puede mockear
-      const response = await $fetch<AnalyzeAndGenerateResult>('/api/job-offers/analyze-and-generate-cv', {
+      const { fetch } = useApiFetch()
+      const response = await fetch<AnalyzeAndGenerateResult>('/job-offers/analyze-and-generate-cv', {
         method: 'POST',
         body: payload,
       })

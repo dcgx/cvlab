@@ -357,16 +357,20 @@ export const useCvStore = defineStore('cv', () => {
     autosaveStatus.value = 'saving'
     try {
       const base = getPayload()
-      const id = cvId.value ?? 'local'
-      const updatedAt = new Date().toISOString()
-      const body = { ...base, id, updatedAt }
-      // Persistencia temporal en localStorage (sin backend)
-      if (import.meta.client) {
-        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(body))
-        cvId.value = id
+      const { create, update } = useCvApi()
+      if (cvId.value && cvId.value !== 'local') {
+        const result = await update(cvId.value, base) as { id?: string; updatedAt?: string }
+        if (result?.id) cvId.value = result.id
+        isDirty.value = false
+        autosaveStatus.value = 'saved'
+      } else {
+        const result = await create(base) as { id?: string }
+        if (result?.id) {
+          cvId.value = result.id
+          isDirty.value = false
+          autosaveStatus.value = 'saved'
+        }
       }
-      isDirty.value = false
-      autosaveStatus.value = 'saved'
     } catch (_e) {
       autosaveStatus.value = 'error'
     }
@@ -388,17 +392,16 @@ export const useCvStore = defineStore('cv', () => {
   }
 
   async function loadCv(id: string) {
-    // Si es el draft local, cargar desde localStorage
     if (id === 'local') {
       loadFromLocalStorage()
       return
     }
     try {
-      const data = await $fetch<ReturnType<typeof getPayload> & { id?: string }>(`/api/cvs/${id}`)
+      const { fetchOne } = useCvApi()
+      const data = await fetchOne(id) as ReturnType<typeof getPayload> & { id?: string }
       if (data?.id) cvId.value = data.id
       hydrate(data)
     } catch (_e) {
-      // Sin backend: intentar cargar draft local
       loadFromLocalStorage()
     }
   }
